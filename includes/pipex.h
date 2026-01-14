@@ -6,7 +6,7 @@
 /*   By: alehamad <alehamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 10:50:29 by alehamad          #+#    #+#             */
-/*   Updated: 2026/01/14 03:27:22 by alehamad         ###   ########.fr       */
+/*   Updated: 2026/01/14 12:45:32 by alehamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	child_fail(t_data *data, int code_error);
 int		ft_pipex(t_data *p, char **env);
 void	free_data(t_data *data);
 void	free_tab(char **tab);
+void	perror_fail(char *msg, t_data *data, int code_error);
 
 // ft_split_quote
 int		ft_isquote(char c);

@@ -6,11 +6,17 @@
 /*   By: alehamad <alehamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 20:24:40 by alehamad          #+#    #+#             */
-/*   Updated: 2026/01/14 03:25:28 by alehamad         ###   ########.fr       */
+/*   Updated: 2026/01/14 12:41:18 by alehamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
+
+void	perror_fail(char *msg, t_data *data, int code_error)
+{
+	perror(msg);
+	child_fail(data, code_error);
+}
 
 void	child_fail(t_data *data, int code_error)
 {

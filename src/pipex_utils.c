@@ -6,7 +6,7 @@
 /*   By: alehamad <alehamad@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/30 15:36:45 by alehamad          #+#    #+#             */
-/*   Updated: 2026/01/14 03:59:34 by alehamad         ###   ########.fr       */
+/*   Updated: 2026/01/14 12:56:21 by alehamad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ void	exec_child(t_data *data, char **cmd, char **env)
 	close(data->fd[0]);
 	if (dup2(data->in, STDIN_FILENO) < 0
 		|| dup2(data->fd[1], STDOUT_FILENO) < 0)
-	{
-		perror("dup2");
-		child_fail(data, 1);
-	}
+		perror_fail("dup2", data, 1);
 	close(data->in);
 	close(data->fd[1]);
 	path = find_path_valid(cmd[0], data->path);
@@ -72,7 +69,7 @@ void	exec_child_two(t_data *data, char **cmd, char **env)
 
 	if (!cmd || !cmd[0] || !cmd[0][0])
 		child_fail(data, 127);
-	if ((data->out = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644)) < 0)
+	if (data->out < 0)
 	{
 		perror(data->outfile);
 		child_fail(data, 1);
@@ -80,10 +77,7 @@ void	exec_child_two(t_data *data, char **cmd, char **env)
 	close(data->fd[1]);
 	if (dup2(data->fd[0], STDIN_FILENO) < 0
 		|| dup2(data->out, STDOUT_FILENO) < 0)
-	{
-		perror("dup2");
-		child_fail(data, 1);
-	}
+		perror_fail("dup2", data, 1);
 	close(data->fd[0]);
 	path = find_path_valid(cmd[0], data->path);
 	if (!path)
@@ -107,6 +101,7 @@ int	ft_pipex(t_data *data, char **env)
 		return (1);
 	if (pid1 == 0)
 		exec_child(data, data->cmd_one, env);
+	data->out = open(data->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	pid2 = fork();
 	if (pid2 < 0)
 		return (1);
